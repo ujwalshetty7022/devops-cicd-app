@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DevOps CI/CD deployment monitoring dashboard">
+    <title>DevOps Control Center</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a href="#" class="brand">
+                <span class="brand-icon">D</span>
+                <span>DevOps<span class="brand-light">Control</span></span>
+            </a>
+
+            <p class="nav-heading">WORKSPACE</p>
+            <nav>
+                <a class="nav-link active" href="#overview">▦ <span>Overview</span></a>
+                <a class="nav-link" href="#deployment">⇧ <span>Deployments</span></a>
+                <a class="nav-link" href="#activity">≡ <span>Activity logs</span></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="online-indicator">
+                    <span class="pulse"></span>
+                    <div>
+                        <strong>Dashboard online</strong>
+                        <small>Frontend is running</small>
+                    </div>
+                </div>
+                <p class="sidebar-version">CI/CD LAB · v1.0.0</p>
+            </div>
+        </aside>
+
+        <main class="main-content" id="overview">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR INFRASTRUCTURE AT A GLANCE</p>
+                    <h1>Deployment overview</h1>
+                    <p class="subtitle">Monitor your application and delivery pipeline.</p>
+                </div>
+                <div class="topbar-right">
+                    <span class="environment-badge"><span></span> DEV ENVIRONMENT</span>
+                    <div class="avatar">DS</div>
+                </div>
+            </header>
+
+            <section class="welcome-banner">
+                <div>
+                    <p class="banner-label">YOUR DEVOPS WORKSPACE</p>
+                    <h2>Build. Ship. Monitor.</h2>
+                    <p>One pipeline from your code to a running container on AWS.</p>
+                </div>
+                <div class="banner-symbol" aria-hidden="true">⟡</div>
+            </section>
+
+            <section class="section-block">
+                <div class="section-title">
+                    <div>
+                        <h2>System status</h2>
+                        <p>Current frontend and deployment information</p>
+                    </div>
+                    <span class="updated-label" id="last-updated">Loading...</span>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Application</span>
+                            <span class="stat-icon green">✓</span>
+                        </div>
+                        <h3 id="app-status">Online</h3>
+                        <p><span class="dot green-dot"></span> Frontend loaded successfully</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>App version</span>
+                            <span class="stat-icon purple">⌘</span>
+                        </div>
+                        <h3 id="app-version">1.0.0</h3>
+                        <p>Configured release version</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Environment</span>
+                            <span class="stat-icon blue">⌂</span>
+                        </div>
+                        <h3 id="app-environment">Development</h3>
+                        <p>Deployment target</p>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span>Container platform</span>
+                            <span class="stat-icon orange">▣</span>
+                        </div>
+                        <h3>Docker</h3>
+                        <p>Packaged web application</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="content-grid" id="deployment">
+                <article class="panel pipeline-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Delivery pipeline</h2>
+                            <p>Expected CI/CD workflow</p>
+                        </div>
+                        <span class="tag">CI/CD</span>
+                    </div>
+
+                    <div class="pipeline">
+                        <div class="pipeline-step">
+                            <span class="step-icon success">✓</span>
+                            <div>
+                                <strong>Source control</strong>
+                                <small>Code stored in GitHub</small>
+                            </div>
+                            <span class="step-state">READY</span>
+                        </div>
+                        <div class="pipeline-line"></div>
+                        <div class="pipeline-step">
+                            <span class="step-icon success">✓</span>
+                            <div>
+                                <strong>Build automation</strong>
+                                <small>Jenkins pipeline</small>
+                            </div>
+                            <span class="step-state">READY</span>
+                        </div>
+                        <div class="pipeline-line"></div>
+                        <div class="pipeline-step">
+                            <span class="step-icon success">✓</span>
+                            <div>
+                                <strong>Containerization</strong>
+                                <small>Docker image</small>
+                            </div>
+                            <span class="step-state">READY</span>
+                        </div>
+                        <div class="pipeline-line"></div>
+                        <div class="pipeline-step">
+                            <span class="step-icon pending">4</span>
+                            <div>
+                                <strong>AWS deployment</strong>
+                                <small>EC2 application server</small>
+                            </div>
+                            <span class="step-state pending-text">CONFIGURE</span>
+                        </div>
+                    </div>
+                    <p class="note">
+                        These are pipeline setup indicators, not live Jenkins job results.
+                    </p>
+                </article>
+
+                <article class="panel details-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Runtime details</h2>
+                            <p>Application configuration</p>
+                        </div>
+                        <span class="tag">RUNTIME</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Application name</span>
+                        <strong>DevOps Control Center</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Web server</span>
+                        <strong>Nginx</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Container port</span>
+                        <strong>80</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Delivery tool</span>
+                        <strong>Jenkins</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Cloud platform</span>
+                        <strong>AWS EC2</strong>
+                    </div>
+
+                    <button class="primary-button" id="check-button" type="button">
+                        Check frontend status <span>→</span>
+                    </button>
+                    <p id="check-result" class="check-result" aria-live="polite"></p>
+                </article>
+            </section>
+
+            <section class="panel activity-panel" id="activity">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Recent activity</h2>
+                        <p>Browser-side demo events</p>
+                    </div>
+                    <button id="clear-activity" class="text-button" type="button">Clear activity</button>
+                </div>
+                <div id="activity-list" class="activity-list" aria-live="polite"></div>
+                <p class="note">
+                    This activity list is held in the browser. It is not a replacement for CloudWatch or Jenkins logs.
+                </p>
+            </section>
+
+            <footer class="footer">
+                <span>DevOps Control Center</span>
+                <span>Built for a GitHub · Jenkins · Docker · AWS lab</span>
+                <span id="clock">--:--:--</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

@@ -32,25 +32,29 @@ pipeline {
                     test -f style.css
                     test -f script.js
                     test -f Dockerfile
+                    test -f .stylelintrc.json
+                    test -f eslint.config.mjs
 
-                    echo "Installing validation tools..."
+                    echo "HTML validation..."
 
-                    npm exec --yes --package=html-validate -- \
-                        html-validate index.html
+                    npm exec --yes \
+                        --package=html-validate \
+                        -- html-validate index.html
 
-                    npm exec --yes --package=stylelint -- \
-                        stylelint --config '{"extends":["stylelint-config-standard"]}' style.css
+                    echo "CSS validation..."
 
-                    npm exec --yes --package=eslint -- \
-                        eslint --no-config-lookup \
-                        --no-ignore \
-                        --no-warn-ignored \
-                        --no-config-lookup \
-                        --no-ignore \
-                        --no-warn-ignored \
-                        --no-inline-config \
-                        --no-eslintrc \
-                        script.js
+                    npm exec --yes \
+                        --package=stylelint \
+                        --package=stylelint-config-standard \
+                        -- stylelint style.css
+
+                    echo "JavaScript validation..."
+
+                    npm exec --yes \
+                        --package=eslint \
+                        -- eslint script.js
+
+                    echo "All code validation checks passed."
                 '''
             }
         }
@@ -91,13 +95,16 @@ pipeline {
                     for i in $(seq 1 15); do
                         if docker exec ${CONTAINER_NAME} \
                             wget -q -O /dev/null http://127.0.0.1/; then
+
                             echo "Application is responding."
                             exit 0
                         fi
+
                         sleep 2
                     done
 
                     echo "Application health check failed."
+
                     docker logs ${CONTAINER_NAME}
                     exit 1
                 '''

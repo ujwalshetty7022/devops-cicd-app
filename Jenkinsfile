@@ -1,63 +1,88 @@
+
 pipeline {
-    agent any
+    agent {
+        label 'docker-agent'
+    }
 
     environment {
-        IMAGE_NAME = "devops-cicd-app"
-        CONTAINER_NAME = "devops-cicd-app"
-        SLAVE_IP = "10.0.153.85"
-        SSH_KEY = "/var/lib/jenkins/.ssh/my_pemkey.pem"
+        IMAGE_NAME = 'devops-cicd-app'
+        CONTAINER_NAME = 'devops-cicd-app'
+        APP_PORT = '80'
     }
 
     stages {
 
-        stage('Checkout') {
+        stage('Clone') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/ujwalshetty7022/devops-cicd-app.git'
+
+                echo 'GitHub repository cloned successfully.'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Test') {
             steps {
                 sh '''
-                docker build -t devops-cicd-app:latest .
+                    set -eu
+
+                    echo "Checking application files..."
+
+                    test -f index.html
+                    test -f style.css
+                    test -f script.js
+                    test -f Dockerfile
+
+                    echo "All required files are present."
                 '''
             }
         }
 
-        stage('Save Docker Image') {
+        stage('Build') {
             steps {
                 sh '''
-                docker save devops-cicd-app:latest -o devops-cicd-app.tar
+                    set -eu
+
+                    echo "Building Docker image..."
+
+                    docker build \
+                        -t ${IMAGE_NAME}:${BUILD_NUMBER} \
+                        -t ${IMAGE_NAME}:latest .
+
+                    echo "Docker image built successfully."
                 '''
             }
         }
 
-        stage('Copy Image To Slave') {
+        stage('Deploy') {
             steps {
                 sh '''
-                scp -o StrictHostKeyChecking=no \
-                -i ${SSH_KEY} \
-                devops-cicd-app.tar \
-                ubuntu@${SLAVE_IP}:/home/ubuntu/
-                '''
-            }
-        }
+                    set -eu
 
-        stage('Deploy To Slave') {
-            steps {
-                sh '''
-                ssh -o StrictHostKeyChecking=no \
-                -i ${SSH_KEY} \
-                ubuntu@${SLAVE_IP} "
-                docker stop ${CONTAINER_NAME} || true
-                docker rm ${CONTAINER_NAME} || true
-                docker load -i /home/ubuntu/devops-cicd-app.tar
-                docker run -d \
-                    --name ${CONTAINER_NAME} \
-                    -p 80:80 \
-                    devops-cicd-app:latest
-                "
+                    echo "Deploying application on Jenkins Agent..."
+
+                    docker rm -f ${CONTAINER_NAME} || true
+
+                    docker run -d \
+                        --name ${CONTAINER_NAME} \
+                        --restart unless-stopped \
+                        -p ${APP_PORT}:80 \
+                        ${IMAGE_NAME}:${BUILD_NUMBER}
+
+                    echo "Waiting for application..."
+
+                    for i in $(seq 1 15); do
+                        if docker exec ${CONTAINER_NAME} \
+                            wget -q -O /dev/null http://127.0.0.1/; then
+                            echo "Application is responding."
+                            exit 0
+                        fi
+                        sleep 2
+                    done
+
+                    echo "Application health check failed."
+                    docker logs ${CONTAINER_NAME}
+                    exit 1
                 '''
             }
         }
@@ -65,11 +90,11 @@ pipeline {
 
     post {
         success {
-            echo 'Application deployed successfully to slave node'
+            echo 'SUCCESS: Application deployed on Jenkins Slave EC2!'
         }
 
         failure {
-            echo 'Deployment failed'
+            echo 'FAILED: Check Jenkins Console Output.'
         }
     }
 }

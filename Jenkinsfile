@@ -45,7 +45,7 @@ pipeline {
 
                     npm exec --yes \
                         --package=stylelint \
-                        -- stylelint style.css
+                        -- stylelint --config .stylelintrc.json style.css
 
                     echo "JavaScript validation..."
 

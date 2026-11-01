@@ -23,7 +23,7 @@ function addActivity(title, description) {
     item.className = "activity-item";
 
     const marker = document.createElement("span");
-    marker.className = "activity-marker";
+    marker.className = "activity-marker"
 
     const content = document.createElement("div");
 

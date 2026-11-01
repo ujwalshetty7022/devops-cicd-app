@@ -8,7 +8,11 @@ export default [
                 window: "readonly",
                 console: "readonly",
                 alert: "readonly",
-                localStorage: "readonly"
+                localStorage: "readonly",
+                setInterval: "readonly",
+                clearInterval: "readonly",
+                setTimeout: "readonly",
+                clearTimeout: "readonly"
             }
         },
         rules: {

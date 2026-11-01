@@ -1,42 +1,48 @@
 
 "use strict";
 
-const APP_VERSION = "1.0.0";
-const APP_ENVIRONMENT = "Development";
+const APP_VERSION = '1.0.0';
+const APP_ENVIRONMENT = 'Development';
 
-const activityList = document.getElementById("activity-list");
-const lastUpdated = document.getElementById("last-updated");
-const clock = document.getElementById("clock");
-const checkButton = document.getElementById("check-button");
-const checkResult = document.getElementById("check-result");
+const activityList = document.getElementById('activity-list');
+const lastUpdated = document.getElementById('last-updated');
+const clock = document.getElementById('clock');
+const checkButton = document.getElementById('check-button');
+const checkResult = document.getElementById('check-result');
 
 function getTime() {
     return new Date().toLocaleTimeString();
 }
 
 function updateClock() {
-    clock.textContent = getTime();
+    if (clock) {
+        clock.textContent = getTime();
+    }
 }
 
 function addActivity(title, description) {
-    const item = document.createElement("div");
-    item.className = "activity-item";
+    if (!activityList) {
+        return;
+    }
 
-    const marker = document.createElement("span");
-    marker.className = "activity-marker";
+    const item = document.createElement('div');
+    item.className = 'activity-item';
 
-    const content = document.createElement("div");
+    const marker = document.createElement('span');
+    marker.className = 'activity-marker';
 
-    const heading = document.createElement("strong");
+    const content = document.createElement('div');
+
+    const heading = document.createElement('strong');
     heading.textContent = title;
 
-    const detail = document.createElement("p");
+    const detail = document.createElement('p');
     detail.textContent = description;
 
     content.append(heading, detail);
 
-    const time = document.createElement("span");
-    time.className = "activity-time";
+    const time = document.createElement('span');
+    time.className = 'activity-time';
     time.textContent = getTime();
 
     item.append(marker, content, time);
@@ -44,52 +50,70 @@ function addActivity(title, description) {
 }
 
 function updateLastUpdated() {
-    lastUpdated.textContent = `Updated ${getTime()}`;
+    if (lastUpdated) {
+        lastUpdated.textContent = `Updated ${getTime()}`;
+    }
 }
 
 function checkFrontendStatus() {
-    const isPageReady = document.readyState === "complete";
+    const isPageReady = document.readyState === 'complete';
 
-    document.getElementById("app-status").textContent =
-        isPageReady ? "Online" : "Loading";
+    const appStatus = document.getElementById('app-status');
+    const appVersion = document.getElementById('app-version');
+    const appEnvironment = document.getElementById('app-environment');
 
-    document.getElementById("app-version").textContent = APP_VERSION;
+    if (appStatus) {
+        appStatus.textContent = isPageReady ? 'Online' : 'Loading';
+    }
 
-    document.getElementById("app-environment").textContent =
-        APP_ENVIRONMENT;
+    if (appVersion) {
+        appVersion.textContent = APP_VERSION;
+    }
 
-    checkResult.textContent = isPageReady
-        ? "Frontend JavaScript is responding successfully."
-        : "The page is still loading.";
+    if (appEnvironment) {
+        appEnvironment.textContent = APP_ENVIRONMENT;
+    }
+
+    if (checkResult) {
+        checkResult.textContent = isPageReady
+            ? 'Frontend JavaScript is responding successfully.'
+            : 'The page is still loading.';
+    }
 
     updateLastUpdated();
 
     addActivity(
-        "Frontend status checked",
+        'Frontend status checked',
         isPageReady
-            ? "The browser-side status check completed."
-            : "The page has not finished loading."
+            ? 'The browser-side status check completed.'
+            : 'The page has not finished loading.'
     );
 }
 
-checkButton.addEventListener("click", checkFrontendStatus);
+if (checkButton) {
+    checkButton.addEventListener('click', checkFrontendStatus);
+}
 
-document.getElementById("clear-activity").addEventListener("click", () => {
-    activityList.replaceChildren();
+const clearButton = document.getElementById('clear-activity');
 
-    const empty = document.createElement("p");
-    empty.className = "empty-activity";
-    empty.textContent = "No browser activity recorded.";
+if (clearButton && activityList) {
+    clearButton.addEventListener('click', () => {
+        activityList.replaceChildren();
 
-    activityList.appendChild(empty);
-});
+        const empty = document.createElement('p');
+        empty.className = 'empty-activity';
+        empty.textContent = 'No browser activity recorded.';
+
+        activityList.appendChild(empty);
+    });
+}
 
 updateClock();
 setInterval(updateClock, 1000);
 
 addActivity(
-    "Dashboard initialized",
-    "The frontend JavaScript loaded successfully."
+    'Dashboard initialized',
+    'The frontend JavaScript loaded successfully.'
 );
 
 updateLastUpdated();

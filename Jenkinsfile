@@ -33,7 +33,24 @@ pipeline {
                     test -f script.js
                     test -f Dockerfile
 
-                    echo "All required files are present."
+                    echo "Installing validation tools..."
+
+                    npm exec --yes --package=html-validate -- \
+                        html-validate index.html
+
+                    npm exec --yes --package=stylelint -- \
+                        stylelint --config '{"extends":["stylelint-config-standard"]}' style.css
+
+                    npm exec --yes --package=eslint -- \
+                        eslint --no-config-lookup \
+                        --no-ignore \
+                        --no-warn-ignored \
+                        --no-config-lookup \
+                        --no-ignore \
+                        --no-warn-ignored \
+                        --no-inline-config \
+                        --no-eslintrc \
+                        script.js
                 '''
             }
         }
@@ -90,7 +107,7 @@ pipeline {
 
     post {
         success {
-            echo 'SUCCESS: Application deployed on Jenkins Slave EC2!'
+            echo 'SUCCESS: Application deployed on Jenkins Agent EC2!'
         }
 
         failure {

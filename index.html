@@ -18,6 +18,7 @@
             </a>
 
             <p class="nav-heading">WORKSPACE</p>
+
             <nav>
                 <a class="nav-link active" href="#overview">▦ <span>Overview</span></a>
                 <a class="nav-link" href="#deployment">⇧ <span>Deployments</span></a>
@@ -29,9 +30,10 @@
                     <span class="pulse"></span>
                     <div>
                         <strong>Sudeep hello</strong>
-                        <small>Frontend is running</small>  
+                        <small>Frontend is running</small>
                     </div>
                 </div>
+
                 <p class="sidebar-version">CI/CD LAB · v1.0.0</p>
             </div>
         </aside>
@@ -43,8 +45,11 @@
                     <h1>Deployment overview</h1>
                     <p class="subtitle">Monitor your application and delivery pipeline.</p>
                 </div>
+
                 <div class="topbar-right">
-                    <span class="environment-badge"><span></span> DEV ENVIRONMENT</span>
+                    <span class="environment-badge">
+                        <span></span> DEV ENVIRONMENT
+                    </span>
                     <div class="avatar">DS</div>
                 </div>
             </header>
@@ -55,6 +60,7 @@
                     <h2>Build. Ship. Monitor.</h2>
                     <p>One pipeline from your code to a running container on AWS.</p>
                 </div>
+
                 <div class="banner-symbol" aria-hidden="true">⟡</div>
             </section>
 
@@ -64,6 +70,7 @@
                         <h2>System status</h2>
                         <p>Current frontend and deployment information</p>
                     </div>
+
                     <span class="updated-label" id="last-updated">Loading...</span>
                 </div>
 
@@ -125,7 +132,9 @@
                             </div>
                             <span class="step-state">READY</span>
                         </div>
+
                         <div class="pipeline-line"></div>
+
                         <div class="pipeline-step">
                             <span class="step-icon success">✓</span>
                             <div>
@@ -134,7 +143,9 @@
                             </div>
                             <span class="step-state">READY</span>
                         </div>
+
                         <div class="pipeline-line"></div>
+
                         <div class="pipeline-step">
                             <span class="step-icon success">✓</span>
                             <div>
@@ -143,16 +154,19 @@
                             </div>
                             <span class="step-state">READY</span>
                         </div>
+
                         <div class="pipeline-line"></div>
+
                         <div class="pipeline-step">
                             <span class="step-icon pending">4</span>
                             <div>
                                 <strong>AWS deployment</strong>
-                                <small>EC2 application server</small>
+                                <small>Jenkins Agent EC2 deployment</small>
                             </div>
                             <span class="step-state pending-text">CONFIGURE</span>
                         </div>
                     </div>
+
                     <p class="note">
                         These are pipeline setup indicators, not live Jenkins job results.
                     </p>
@@ -171,18 +185,22 @@
                         <span>Application name</span>
                         <strong>DevOps Control Center</strong>
                     </div>
+
                     <div class="detail-row">
                         <span>Web server</span>
                         <strong>Nginx</strong>
                     </div>
+
                     <div class="detail-row">
                         <span>Container port</span>
                         <strong>80</strong>
                     </div>
+
                     <div class="detail-row">
                         <span>Delivery tool</span>
                         <strong>Jenkins</strong>
                     </div>
+
                     <div class="detail-row">
                         <span>Cloud platform</span>
                         <strong>AWS EC2</strong>
@@ -191,6 +209,7 @@
                     <button class="primary-button" id="check-button" type="button">
                         Check frontend status <span>→</span>
                     </button>
+
                     <p id="check-result" class="check-result" aria-live="polite"></p>
                 </article>
             </section>
@@ -201,11 +220,17 @@
                         <h2>Recent activity</h2>
                         <p>Browser-side demo events</p>
                     </div>
-                    <button id="clear-activity" class="text-button" type="button">Clear activity</button>
+
+                    <button id="clear-activity" class="text-button" type="button">
+                        Clear activity
+                    </button>
                 </div>
+
                 <div id="activity-list" class="activity-list" aria-live="polite"></div>
+
                 <p class="note">
-                    This activity list is held in the browser. It is not a replacement for CloudWatch or Jenkins logs.
+                    This activity list is held in the browser. It is not a replacement
+                    for CloudWatch or Jenkins logs.
                 </p>
             </section>
 
